@@ -7,10 +7,11 @@ from datetime import timedelta
 
 permissoes = discord.Intents.default() # permissões do bot
 permissoes.message_content = True
-bot = commands.Bot(command_prefix='!', intents = permissoes)
+status = discord.Activity(name = "Use !helpme para ver os comandos. ", type = discord.ActivityType.watching)
+bot = commands.Bot(command_prefix ='!', intents = permissoes, activity = status)
 
-MIN = 5
-MAX = 9
+# MIN = 5
+# MAX = 9
 
 opcoes_match_final = {}
 
@@ -18,9 +19,9 @@ opcoes_match_final = {}
 # Comando de Instruções
 @bot.command()
 async def helpme(ctx):
-    await ctx.send(f"Caso queira que a enquete tenha {MIN} opções (padrão), basta digitar o comando '!enquete' sem o número no comando.")
-    await ctx.send(f"Caso queira que a enquete tenha mais que {MIN} opções, digite o comando '!enquete' + o número de opções no comando. Ex: '!enquete 7'.")
-    await ctx.send(f"Importante ressaltar: É necessário que a enquete tenha entre {MIN} e {MAX} opções. Caso seja escolhida alguma outra opção, haverá uma mensagem de erro.")
+    await ctx.send(f"Caso queira que gerar uma enquete, basta digitar o comando '!rebola' seguido de espaço e as partidas.")
+    await ctx.send("Para adicionar um novo jogador, use o comando '!linkar' seguido do apelido cadastrado no site do X5.")
+    await ctx.send("Para a Auditoria, o comando é '!auditar'. O Bot irá mostrar quantos votos houveram, se a auditoria foi aprovada ou reprovada e quem votou nas partidas.")
 
 # Função para pegar o nome do usuário Discord e cadastrá-lo no JSON
 @bot.command()
@@ -115,14 +116,125 @@ async def rebola(ctx, *, opcoes):
             my_poll.add_answer(text=option)
 
         # Envia a enquete usando o argumento 'poll'
-
     await ctx.send(poll=my_poll)
 
-    print(f'FINAL DA FORMATAÇÃO: {options}')
-    print('-------------------------------------------')
 
 
+@bot.command()
+async def auditar(ctx):
 
+    # Lendo os arquivos JSON com tratamento de erro para caso o arquivo não seja encontrado.
+
+    try:
+        with open('links.json', 'r') as f:
+            jogadores = json.load(f)
+    except FileNotFoundError: 
+        jogadores = {}
+
+    try:
+        with open('partidas.json', 'r') as f:
+            partidas = json.load(f)
+    except FileNotFoundError:
+        partidas = {}
+    
+    enquete_encontrada = None
+    
+    # Busca as últimas 50 mensagens enviadas no canal
+    async for message in ctx.channel.history(limit=50):
+
+        # Caso o autor da mensagem seja o bot e ela seja uma enquete, buscamos os dados dela.
+        if message.author == bot.user and message.poll: 
+            enquete_encontrada = message.poll
+            break # Encerra o bloco caso a condição seja verdadeira.
+
+    # Caso não haja uma mensagem do tipo enquete, retorna uma resposta de aviso.
+    if enquete_encontrada is None:
+        await ctx.send("Não encontrei nenhuma enquete recente neste canal.")
+        return # Encerra a função.
+    
+        
+    await ctx.send("Enquete encontrada! Iniciando auditoria...") # Mensagem para avisar que a auditoria começou.
+
+    maior_contagem = 0 # Definindo a variável para guardar o número de votos  
+    opcao_vencedora = '' # Definindo a variável que irá guardar a opção vencedora
+
+    # Para cada uma das opções da enquete...
+    for opcao in enquete_encontrada.answers:
+        # Caso a contagem de votos na opção seja maior do que a maior contagem armazenada...
+        if opcao.vote_count > maior_contagem:
+
+            maior_contagem = opcao.vote_count # Armazeno a quantidade de votos da opção mais votada
+            opcao_vencedora = opcao.text # Armazeno a opção com mais votos
+
+    if opcao_vencedora == "Rebola":
+        await ctx.send("Auditoria não aplicável na opção 'Rebola'.")
+        return
+    
+    elif maior_contagem == 0:
+        await ctx.send("Não houveram votos suficientes para iniciar a auditoria.")
+        return
+    
+    else:
+        await ctx.send(f"Partida vencedora: {opcao_vencedora}.")
+        await ctx.send(f"Total Votos: {maior_contagem}\n\n")
+        await ctx.send(f"Iniciando a auditoria...")
+
+    # Iniciando a auditoria...
+
+    votantes_da_opcao_vencedora = []
+
+    for opcao in enquete_encontrada.answers:
+        if opcao.text == opcao_vencedora:
+            votantes_da_opcao_vencedora = [member async for member in opcao.voters()]
+            break
+    
+        
+    times_da_partida_vencedora = partidas[opcao_vencedora]
+
+    time_esquerdo = times_da_partida_vencedora['esquerdo']
+
+    time_direito = times_da_partida_vencedora['direito']
+
+
+    votos_time_esq = 0
+    votantes_time_esq = []
+    
+    votos_time_dir = 0
+    votantes_time_dir = []
+
+    for votante in votantes_da_opcao_vencedora:
+
+        id_votante = str(votante.id)
+
+        nickname = jogadores[id_votante]
+
+        # Se o ID do jogador estiver no time esquerdo:
+        if nickname in time_esquerdo:
+            votos_time_esq += 1
+            votantes_time_esq.append(nickname)
+
+        # Se o ID do jogador estiver no time direito:
+        elif nickname in time_direito:
+            votos_time_dir += 1
+            votantes_time_dir.append(nickname)
+    
+    votantes_time_esq_j = ", ".join(votantes_time_esq)
+    votantes_time_dir_j = ",".join(votantes_time_dir)
+    
+    mensagem_final = f"Resultado da auditoria para {opcao_vencedora}: \n"
+    mensagem_final += f"Votos do Time Esquerdo: {votos_time_esq}\n "
+    mensagem_final += f"Pessoas que votaram no Time Esquerdo: {votantes_time_esq_j}\n\n"
+    mensagem_final += f"Votos do Time Direito: {votos_time_dir}\n"
+    mensagem_final += f"Pessoas que votaram no Time Direito: {votantes_time_dir_j}\n\n"
+
+    if votos_time_dir >= 2 and votos_time_esq >= 2:
+        mensagem_final += f"**Auditoria Aprovada.**"
+    else:
+        mensagem_final += f"**Auditoria Reprovada.**"
+    
+    await ctx.send(mensagem_final)
+    
+          
 
 # # Para o voto normal, o código é o descrito abaixo
 # @bot.command()

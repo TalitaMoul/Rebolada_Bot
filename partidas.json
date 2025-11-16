@@ -1,82 +1,82 @@
 {
     "Match 1": {
         "esquerdo": [
-            "Valbim",
-            "Pedro Gay",
-            "Rafael",
-            "Lyra",
-            "Grilha"
+            "Cain",
+            "Bigode",
+            "Marcello",
+            "Carioca",
+            "Rafinsk"
         ],
         "direito": [
-            "Pedro Ruim",
-            "Talita",
-            "Cain",
+            "Valbim",
             "Vinicim",
-            "Marcello"
+            "Penta",
+            "Loves",
+            "Tonho"
         ]
     },
     "Match 2": {
         "esquerdo": [
-            "Rafael",
-            "Valbim",
-            "Marcello",
             "Cain",
-            "Talita"
+            "Valbim",
+            "Vinicim",
+            "Loves",
+            "Bigode"
         ],
         "direito": [
-            "Lyra",
-            "Pedro Ruim",
-            "Vinicim",
-            "Grilha",
-            "Pedro Gay"
+            "Penta",
+            "Marcello",
+            "Rafinsk",
+            "Carioca",
+            "Tonho"
         ]
     },
     "Match 3": {
         "esquerdo": [
-            "Marcello",
-            "Vinicim",
-            "Pedro Gay",
-            "Valbim",
-            "Cain"
+            "Bigode",
+            "Tonho",
+            "Penta",
+            "Loves",
+            "Vinicim"
         ],
         "direito": [
-            "Grilha",
-            "Lyra",
-            "Talita",
-            "Rafael",
-            "Pedro Ruim"
+            "Cain",
+            "Rafinsk",
+            "Marcello",
+            "Valbim",
+            "Carioca"
         ]
     },
     "Match 4": {
         "esquerdo": [
-            "Vinicim",
-            "Pedro Ruim",
-            "Lyra",
-            "Talita",
-            "Grilha"
+            "Carioca",
+            "Loves",
+            "Valbim",
+            "Bigode",
+            "Cain"
         ],
         "direito": [
-            "Cain",
+            "Penta",
+            "Tonho",
             "Marcello",
-            "Rafael",
-            "Pedro Gay",
-            "Valbim"
+            "Rafinsk",
+            "Vinicim"
         ]
     },
     "Match 5": {
         "esquerdo": [
-            "Grilha",
-            "Valbim",
-            "Vinicim",
-            "Talita",
-            "Lyra"
+            "Cain",
+            "Rafinsk",
+            "Marcello",
+            "Loves",
+            "Bigode"
         ],
         "direito": [
-            "Marcello",
-            "Cain",
-            "Rafael",
-            "Pedro Gay",
-            "Pedro Ruim"
+            "Vinicim",
+            "Carioca",
+            "Penta",
+            "Valbim",
+            "Tonho"
         ]
     }
 }
