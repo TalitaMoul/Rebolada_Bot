@@ -16,19 +16,19 @@ Bot para Discord desenvolvido em Python, criado para automatizar a votação de 
 
 
 ## Como rodar localmente
-#### ***bash#*** Clone o repositório
+### Clone o repositório
 `git clone https://github.com/TalitaMoul/Rebolada_Bot.git`
 
-## Acesse a pasta
+### Acesse a pasta
 `cd Rebolada_Bot`
 
-## Instale as dependências
+### Instale as dependências
 `pip install -r requirements.txt`
 
-## Configure o token do bot no arquivo .env
+### Configure o token do bot no arquivo .env
 `DISCORD_TOKEN=seu_token_aqui`
 
-## Execute o bot
+### Execute o bot
 `python bot.py`
 
 ***Para obter um token, acesse o Discord Developer Portal e crie uma aplicação.***
@@ -38,4 +38,7 @@ Bot para Discord desenvolvido em Python, criado para automatizar a votação de 
 Projeto desenvolvido para praticar automação com Python e integração com APIs externas, aplicando conceitos de eventos, comandos e manipulação de dados em tempo real via Discord API.
 
 ## Autor
-**Desenvolvido por Talita Moulin**
+**Desenvolvido por Talita Moulin**<br>
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/talitamoul/)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/TalitaMoul)
