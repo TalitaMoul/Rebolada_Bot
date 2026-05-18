@@ -1,6 +1,6 @@
-#Rebolada Bot 
+# Rebolada Bot 
 Bot para Discord desenvolvido em Python, criado para automatizar a votação de times em partidas 5x5 dentro de servidores.
-🔗 Repositório
+
 
 ## Funcionalidades
 
