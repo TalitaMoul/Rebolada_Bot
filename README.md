@@ -12,7 +12,7 @@ Bot para Discord desenvolvido em Python, criado para automatizar a votação de 
 ## Tecnologias
 
 - **Python** — linguagem principal do bot
-**Discord API (discord.py)** — integração com a plataforma Discord para leitura de comandos e envio de mensagens
+- **Discord API (discord.py)** — integração com a plataforma Discord para leitura de comandos e envio de mensagens
 
 
 ## Como rodar localmente
